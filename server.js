@@ -30,8 +30,8 @@ function isAuthenticated({email, password}){
   return userdb.users.findIndex(user => user.email === email && user.password === password) !== -1
 }
 
-function isExistUser(email, name) {
-    return userdb.users.findIndex(user => user.email === email && user.name === name) !== -1;
+function isExistUser(email) {
+    return userdb.users.findIndex(user => user.email === email) !== -1;
 }
 
 function createNewUser(email, password, name) {
@@ -50,19 +50,23 @@ function createNewUser(email, password, name) {
 
 
 server.post('/auth/login', (req, res) => {
-  const {email, password, name} = req.body
+  const {email, password} = req.body
   if (isAuthenticated({email, password}) === false) {
     const status = 401
     const message = 'Incorrect email or password'
     res.status(status).json({status, message})
     return
   }
-  const access_token = createToken({email, name, password})
+const userIndex =  userdb.users.findIndex(user => user.email === email);
+    // isExistUser(email);
+const name = userdb.users[userIndex].name;
+const access_token = createToken({email, name, password});
   res.status(200).json({
       success: true,
       access_token: access_token
-  })
+  });
 })
+
 
 server.post('/auth/registration', (req, res) => {
     const {email, password, name} = req.body;
@@ -92,6 +96,10 @@ server.post('/auth/registration', (req, res) => {
     });
 })
 
+server.get('/api/users', (req, res) => {
+        res.status(200).json(userdb.users);
+    });
+
 server.use('/api', router);
 
 server.use(/^(?!\/auth).*$/,  (req, res, next) => {
@@ -110,8 +118,6 @@ server.use(/^(?!\/auth).*$/,  (req, res, next) => {
     res.status(status).json({status, message})
   }
 })
-
-
 
 server.listen(3001, () => {
   console.log('Run Auth API Server')
