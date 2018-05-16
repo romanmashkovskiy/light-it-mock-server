@@ -27,7 +27,7 @@ function verifyToken(token){
 
 // Check if the user exists in database
 function isAuthenticated({email, password}){
-  return userdb.users.findIndex(user => user.email === email && user.password === password) !== -1
+  return userdb.users.findIndex(user => user.email === email && user.password === password) !== -1;
 }
 
 function isExistUser(email) {
@@ -60,7 +60,8 @@ server.post('/auth/login', (req, res) => {
 const userIndex =  userdb.users.findIndex(user => user.email === email);
     // isExistUser(email);
 const name = userdb.users[userIndex].name;
-const access_token = createToken({email, name, password});
+const id = userdb.users[userIndex].id;
+const access_token = createToken({id, email, name, password});
   res.status(200).json({
       success: true,
       access_token: access_token
@@ -80,8 +81,9 @@ server.post('/auth/registration', (req, res) => {
         });
         return;
     };
-
-    userdb.users.push(createNewUser(email, password, name));
+    let newUser = createNewUser(email, password, name);
+    const id = newUser.id
+    userdb.users.push(newUser);
     json = JSON.stringify(userdb, null, 4);
 
     fs.writeFile('./users.json', json, (err) => {
@@ -89,7 +91,7 @@ server.post('/auth/registration', (req, res) => {
         console.log('User registered');
     });
 
-    const access_token = createToken({email, name, password});
+    const access_token = createToken({id, email, name, password});
     res.status(200).json({
         success: true,
         access_token: access_token
