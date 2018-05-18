@@ -97,7 +97,7 @@ server.post('/auth/login', (req, res) => {
 const userIndex =  userdb.users.findIndex(user => user.email === email);
 const name = userdb.users[userIndex].name;
 const id = userdb.users[userIndex].id;
-const access_token = createToken({id, email, name, password});
+const access_token = createToken({id, email, name});
   res.status(200).json({
       success: true,
       access_token: access_token
@@ -127,7 +127,7 @@ server.post('/auth/registration', (req, res) => {
         console.log('User registered');
     });
 
-    const access_token = createToken({id, email, name, password});
+    const access_token = createToken({id, email, name});
     res.status(200).json({
         success: true,
         access_token: access_token

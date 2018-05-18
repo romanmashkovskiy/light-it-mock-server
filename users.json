@@ -23,6 +23,12 @@
             "email": "roma@gmail.com",
             "name": "roma",
             "password": "123"
+        },
+        {
+            "id": 5,
+            "email": "techi@email.com",
+            "name": "1",
+            "password": "111"
         }
     ]
 }
