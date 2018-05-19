@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/fake-api-jwt-json-server.iml" filepath="$PROJECT_DIR$/.idea/fake-api-jwt-json-server.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/light-it-mock-server.iml" filepath="$PROJECT_DIR$/.idea/light-it-mock-server.iml" />
     </modules>
   </component>
 </project>

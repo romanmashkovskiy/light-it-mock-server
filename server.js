@@ -14,7 +14,7 @@ const reviewsdb = JSON.parse(fs.readFileSync('./reviews.json', 'UTF-8'));
 server.use(bodyParser.urlencoded({extended: true}));
 server.use(bodyParser.json());
 server.use(jsonServer.defaults());
-
+server.use(express.static('public'));
 const SECRET_KEY = '123456789';
 
 const expiresIn = '1h';
@@ -136,6 +136,22 @@ server.post('/auth/registration', (req, res) => {
 
 server.use('/api', router);
 
+
+server.get("/protected/reviews/:id", function(req, res) {
+    if (isDigit(req.params.id)) {
+        badRequest(res);
+        return;
+    }
+    const reviews = [];
+    for (let i=0; i < reviewsdb.reviews.length; i++) {
+        if (reviewsdb.reviews[i].id_entry == req.params.id) {
+            reviews.push(reviewsdb.reviews[i]);
+        }
+    }
+
+    res.send(reviews);
+});
+
 server.use(/^(?!\/auth).*$/,  (req, res, next) => {
   if (req.headers.authorization === undefined || req.headers.authorization.split(' ')[0] !== 'Bearer') {
     const status = 401;
@@ -153,7 +169,7 @@ server.use(/^(?!\/auth).*$/,  (req, res, next) => {
   }
 });
 
-routerReview.post("/reviews", function(req, res) {
+server.post("/protected/reviews", function(req, res) {
     const {
         rate,
         text,
@@ -170,24 +186,8 @@ routerReview.post("/reviews", function(req, res) {
 
     res.send(reviewsdb.reviews[reviewsdb.reviews.length - 1]);
 });
-
-routerReview.get("/reviews/:id", function(req, res) {
-    if (isDigit(req.params.id)) {
-        badRequest(res);
-        return;
-    }
-    const reviews = [];
-    for (let i=0; i < reviewsdb.reviews.length; i++) {
-        if (reviewsdb.reviews[i].id_entry == req.params.id) {
-            reviews.push(reviewsdb.reviews[i]);
-        }
-    }
-
-    res.send(reviews);
-});
-
-server.use('/protected', routerReview);
-
+//
+// server.use('/protected', routerReview);
 
 
 server.listen(3001, () => {
