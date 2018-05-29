@@ -20,14 +20,14 @@
         },
         {
             "id": 4,
-            "email": "roma@gmail.com",
-            "name": "roma",
-            "password": "123"
+            "email": "r.mashkovskiy@gmail.com",
+            "name": "Рома",
+            "password": "roma"
         },
         {
             "id": 5,
-            "email": "techi@email.com",
-            "name": "1",
+            "email": "ra.mashkovskiy@gmail.com",
+            "name": "ййй",
             "password": "111"
         }
     ]
