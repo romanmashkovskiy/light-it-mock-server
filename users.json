@@ -17,18 +17,6 @@
             "name": "nilson",
             "email": "nilson@email.com",
             "password": "nilson"
-        },
-        {
-            "id": 4,
-            "email": "r.mashkovskiy@gmail.com",
-            "name": "Рома",
-            "password": "roma"
-        },
-        {
-            "id": 5,
-            "email": "ra.mashkovskiy@gmail.com",
-            "name": "ййй",
-            "password": "111"
         }
     ]
 }

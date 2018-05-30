@@ -78,14 +78,6 @@ function badRequest(res) {
     });
 }
 
-function isDigit(c) {
-    if ('0123456789'.indexOf(c) !== -1) {
-        return false;
-    }
-    return true;
-}
-
-
 server.post('/auth/login', (req, res) => {
   const {email, password} = req.body
   if (isAuthenticated({email, password}) === false) {
@@ -138,10 +130,6 @@ server.use('/api', router);
 
 
 server.get("/protected/reviews/:id", function(req, res) {
-    if (isDigit(req.params.id)) {
-        badRequest(res);
-        return;
-    }
     const reviews = [];
     for (let i=0; i < reviewsdb.reviews.length; i++) {
         if (reviewsdb.reviews[i].id_entry == req.params.id) {
